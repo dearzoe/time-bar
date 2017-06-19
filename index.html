@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="layout">
+    <input id="mindate" type="text" value="${plans.startdate}" />
+    <input id="maxdate" type="text" value="${plans.enddate}" />
+</div>
+</body>
+</html>
+<script>
+	//初始化slider
+	$(document).ready(function(){
+		initSlider();
+	});
+	var planid = $("#planid").val();
+
+	var pre;
+	var next;
+	var curSlider;
+	var url = '/plans/getSubPlanJson/' + planid;
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: url,
+		cache: false,
+		data:  "",
+		success: function (json) {
+			if (typeof(json) != "undefined" && typeof(json["rows"]) != "undefined") {
+				for (var i = 0; i < json["rows"].length; i++) {
+
+					var ids = json["rows"][i]["IDS"];
+					$("<div>", {"class": "layout-slider"}).css("width", "100%")
+						.append($("<span>").css({display: "none"}).append($("<input>", {type: "text", name: "mindate",value:json["rows"][i]["STARTDATE"], id: "mindate" + i})))//开始时间表单，滑动滑动条时，动态改变
+						.append($("<span>").css({display: "none"}).append($("<input>", {type: "text", name: "maxdate",value:json["rows"][i]["ENDDATE"], id: "maxdate" + i})))
+						.append($("<span>", {"class": "layoutspan"})
+							.append($("<span>", {text: ids}).css("width", "100px").attr("Index",i))
+							.append($("<span>").css({display: "inline-block", width: "900px", padding: "0 5px"}).append($("<input>", {id: "Slider" + i, type: "slider", name: "area"}))))
+						.appendTo(".layout")
+						.append($("<span>").css({display: "none"}).append($("<input>", {id: "plandata" + i, type: "text", name: "plandataId",value:json["rows"][i]["ID"]})));
+					var maxDate=$("#maxdate"+i);
+					var minDate=$("#mindate"+i);
+
+					var v1 = getvalue(mindate, scale, to, json["rows"][i]["STARTDATE"]);
+					var v2 = getvalue(maxdate, scale, to, json["rows"][i]["ENDDATE"]);
+					$("#Slider" + i).attr("value", v1 + ";" + v2);
+
+					$("#Slider" + i).slider({
+						from: 0,
+						to: to,
+						step: step,
+						limits: false,
+						smooth: true,
+						range:true,
+						round: 0,
+						dimension: "",
+						skin: "plastic" ,
+						calculate: function(value){
+							pre = (value+"").split(";")[0];
+							next = (value+"").split(";")[1];
+
+							return calculate.call(this, value);
+						},
+
+						onstatechange: function(value){
+	//当滑动条改变时，将起始时间更新到相应的计划的表单
+</script>
