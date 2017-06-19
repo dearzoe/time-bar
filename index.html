@@ -2,69 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>time-bar</title>
+    <style>
+        ul,li{
+            list-style: none;
+        }
+        ul li{
+            text-align: center;
+            border: 1px solid red;
+            width: 25px;
+            height: 20px;
+            background: #eee;
+            color: #fff;
+            float: left;
+            border-left:0px;
+            .user-select: none;
+        }
+        ul li:nth-child(1){
+            border: 1px solid red;
+            border-radius:3px 0 0 3px;
+        }
+        ul li:nth-child(24){
+            border-radius:0 3px 3px 0;
+        }
+    </style>
 </head>
 <body>
-<div class="layout">
-    <input id="mindate" type="text" value="${plans.startdate}" />
-    <input id="maxdate" type="text" value="${plans.enddate}" />
-</div>
+<ul id="timeBar">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+    <li>11</li>
+    <li>12</li>
+    <li>13</li>
+    <li>14</li>
+    <li>15</li>
+    <li>16</li>
+    <li>17</li>
+    <li>18</li>
+    <li>19</li>
+    <li>20</li>
+    <li>21</li>
+    <li>22</li>
+    <li>23</li>
+    <li>24</li>
+</ul>
 </body>
-</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
-	//初始化slider
-	$(document).ready(function(){
-		initSlider();
-	});
-	var planid = $("#planid").val();
+    $(function(){
+    	var flag;
+		$("#timeBar li").on("click",function(){
+			console.log($(this).css("background-color"));
+			if($(this).attr("timeBar") == "true"){
+				$(this).css("background-color","#eee");
+				$(this).removeAttr("timeBar");
+            }else{
+				$(this).css("background-color","red");
+				$(this).attr("timeBar",true);
+            }
+			if(flag){
+				mouseOverOff()
+            }else{
+				mouseOverOn();
+            }
+		});
+		function mouseOverOn(){
+			$("#timeBar li").on("mouseenter",function(){
+				$(this).css("background-color","red");
+				$(this).attr("timeBar",true);
+			});
+            flag = true;
+		}
+		function mouseOverOff(){
+			$("#timeBar li").off("mouseenter");
+			flag = false;
+		}
+    });
 
-	var pre;
-	var next;
-	var curSlider;
-	var url = '/plans/getSubPlanJson/' + planid;
-	$.ajax({
-		type: "POST",
-		dataType: "json",
-		url: url,
-		cache: false,
-		data:  "",
-		success: function (json) {
-			if (typeof(json) != "undefined" && typeof(json["rows"]) != "undefined") {
-				for (var i = 0; i < json["rows"].length; i++) {
-
-					var ids = json["rows"][i]["IDS"];
-					$("<div>", {"class": "layout-slider"}).css("width", "100%")
-						.append($("<span>").css({display: "none"}).append($("<input>", {type: "text", name: "mindate",value:json["rows"][i]["STARTDATE"], id: "mindate" + i})))//开始时间表单，滑动滑动条时，动态改变
-						.append($("<span>").css({display: "none"}).append($("<input>", {type: "text", name: "maxdate",value:json["rows"][i]["ENDDATE"], id: "maxdate" + i})))
-						.append($("<span>", {"class": "layoutspan"})
-							.append($("<span>", {text: ids}).css("width", "100px").attr("Index",i))
-							.append($("<span>").css({display: "inline-block", width: "900px", padding: "0 5px"}).append($("<input>", {id: "Slider" + i, type: "slider", name: "area"}))))
-						.appendTo(".layout")
-						.append($("<span>").css({display: "none"}).append($("<input>", {id: "plandata" + i, type: "text", name: "plandataId",value:json["rows"][i]["ID"]})));
-					var maxDate=$("#maxdate"+i);
-					var minDate=$("#mindate"+i);
-
-					var v1 = getvalue(mindate, scale, to, json["rows"][i]["STARTDATE"]);
-					var v2 = getvalue(maxdate, scale, to, json["rows"][i]["ENDDATE"]);
-					$("#Slider" + i).attr("value", v1 + ";" + v2);
-
-					$("#Slider" + i).slider({
-						from: 0,
-						to: to,
-						step: step,
-						limits: false,
-						smooth: true,
-						range:true,
-						round: 0,
-						dimension: "",
-						skin: "plastic" ,
-						calculate: function(value){
-							pre = (value+"").split(";")[0];
-							next = (value+"").split(";")[1];
-
-							return calculate.call(this, value);
-						},
-
-						onstatechange: function(value){
-	//当滑动条改变时，将起始时间更新到相应的计划的表单
 </script>
+</html>
