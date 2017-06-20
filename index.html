@@ -96,7 +96,15 @@
         })
         //获取时间
         $("button").on("click",function(){
-
+        	var workdays = "";
+           $("#timeBar li").each(function(index,value){
+           	if($(this).attr("timeBar")){
+				workdays+= index+1 +",";
+            }else{
+				workdays+= "" +",";
+            }
+           });
+			console.log(workdays);
         })
     });
 
