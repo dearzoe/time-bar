@@ -1,4 +1,4 @@
-# anthor @huwenzhe
+# author @huwenzhe
 //这里是参考
 http://www.runoob.com/jqueryui/example-slider.html
 http://www.html580.com/5271
