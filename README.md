@@ -1,8 +1,8 @@
 # anthor @huwenzhe
-//这里是参考
-http://www.runoob.com/jqueryui/example-slider.html
-http://www.html580.com/5271
-http://timeglider.com/widget/index.php
+//这里是参考<br>
+<br>http://www.runoob.com/jqueryui/example-slider.html
+<br>http://www.html580.com/5271
+<br>http://timeglider.com/widget/index.php
 <br>文件夹目录:
  <br>| csstime           参考插件1
  <br>| jquery ranges     参考插件2
