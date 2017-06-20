@@ -2,7 +2,7 @@
 //这里是参考
 http://www.runoob.com/jqueryui/example-slider.html
 http://www.html580.com/5271
-http://timeglider.com/widget/index.php
+http://timeglider.com/widget/index.php\n
 文件夹目录:
  | csstime           参考插件1
  | jquery ranges     参考插件2
