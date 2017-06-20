@@ -7,7 +7,7 @@
         ul,li{
             list-style: none;
         }
-        #timeBar li{
+        .timeBar li{
             text-align: center;
             border: 1px solid red;
             width: 25px;
@@ -18,17 +18,17 @@
             border-left:0px;
             user-select: none;
         }
-        #timeBar li:nth-child(1){
+        .timeBar li:nth-child(1){
             border: 1px solid red;
             border-radius:3px 0 0 3px;
         }
-        #timeBar li:nth-child(24){
+        .timeBar li:nth-child(24){
             border-radius:0 3px 3px 0;
         }
     </style>
 </head>
 <body>
-<ul id="timeBar">
+<ul class="timeBar" id="timeBarHour">
     <li>1</li>
     <li>2</li>
     <li>3</li>
@@ -54,13 +54,24 @@
     <li>23</li>
     <li>24</li>
 </ul>
+<ul class="timeBar" id="timeBarDay">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+</ul>
 <button id="button">获取时间</button>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $(function(){
-    	var flag;
-		$("#timeBar li").on("click",function(e){
+    	var flagHour;
+    	var flagDay;
+    	//小时
+		$("#timeBarHour li").on("click",function(e){
 			if($(this).attr("timeBar") == "true"){
 				$(this).css("background-color","#eee");
 				$(this).removeAttr("timeBar");
@@ -68,14 +79,14 @@
 				$(this).css("background-color","red");
 				$(this).attr("timeBar",true);
             }
-			if(flag){
-				mouseOverOff()
+			if(flagHour){
+				mouseOverOffHour()
             }else{
-				mouseOverOn();
+				mouseOverOnHour();
             }
 		});
-		function mouseOverOn(){
-			$("#timeBar li").on("mouseenter",function(){
+		function mouseOverOnHour(){
+			$("#timeBarHour li").on("mouseenter",function(){
 				if($(this).attr("timeBar") == "true"){
 					$(this).css("background-color","#eee");
 					$(this).removeAttr("timeBar");
@@ -85,25 +96,69 @@
 				}
 
 			});
-            flag = true;
+			flagHour = true;
 		}
-		function mouseOverOff(){
-			$("#timeBar li").off("mouseenter");
-			flag = false;
+		function mouseOverOffHour(){
+			$("#timeBarHour li").off("mouseenter");
+			flagHour = false;
 		}
-		$("#timeBar").on("mouseleave",function(){
-			mouseOverOff()
+		$("#timeBarHour").on("mouseleave",function(){
+			mouseOverOffHour()
         })
+        //天
+		$("#timeBarDay li").on("click",function(e){
+			if($(this).attr("timeBar") == "true"){
+				$(this).css("background-color","#eee");
+				$(this).removeAttr("timeBar");
+			}else{
+				$(this).css("background-color","red");
+				$(this).attr("timeBar",true);
+			}
+			if(flagDay){
+				mouseOverOffDay()
+			}else{
+				mouseOverOnDay();
+			}
+		});
+		function mouseOverOnDay(){
+			$("#timeBarDay li").on("mouseenter",function(){
+				if($(this).attr("timeBar") == "true"){
+					$(this).css("background-color","#eee");
+					$(this).removeAttr("timeBar");
+				}else{
+					$(this).css("background-color","red");
+					$(this).attr("timeBar",true);
+				}
+
+			});
+			flagDay = true;
+		}
+		function mouseOverOffDay(){
+			$("#timeBarDay li").off("mouseenter");
+			flagDay = false;
+		}
+		$("#timeBarDay").on("mouseleave",function(){
+			mouseOverOffDay()
+		})
         //获取时间
         $("button").on("click",function(){
+        	var workhours = "";
         	var workdays = "";
-           $("#timeBar li").each(function(index,value){
+           $("#timeBarHour li").each(function(index,value){
            	if($(this).attr("timeBar")){
-				workdays+= index+1 +",";
+				workhours+= index+1 +",";
             }else{
-				workdays+= "" +",";
+				workhours+= "" +",";
             }
            });
+			$("#timeBarDay li").each(function(index,value){
+				if($(this).attr("timeBar")){
+					workdays+= index+1 +",";
+				}else{
+					workdays+= "" +",";
+				}
+			});
+			console.log(workhours);
 			console.log(workdays);
         })
     });
