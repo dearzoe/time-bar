@@ -7,7 +7,7 @@
         ul,li{
             list-style: none;
         }
-        ul li{
+        #timeBar li{
             text-align: center;
             border: 1px solid red;
             width: 25px;
@@ -16,13 +16,13 @@
             color: #fff;
             float: left;
             border-left:0px;
-            .user-select: none;
+            user-select: none;
         }
-        ul li:nth-child(1){
+        #timeBar li:nth-child(1){
             border: 1px solid red;
             border-radius:3px 0 0 3px;
         }
-        ul li:nth-child(24){
+        #timeBar li:nth-child(24){
             border-radius:0 3px 3px 0;
         }
     </style>
@@ -54,13 +54,13 @@
     <li>23</li>
     <li>24</li>
 </ul>
+<button id="button">获取时间</button>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $(function(){
     	var flag;
-		$("#timeBar li").on("click",function(){
-			console.log($(this).css("background-color"));
+		$("#timeBar li").on("click",function(e){
 			if($(this).attr("timeBar") == "true"){
 				$(this).css("background-color","#eee");
 				$(this).removeAttr("timeBar");
@@ -76,8 +76,14 @@
 		});
 		function mouseOverOn(){
 			$("#timeBar li").on("mouseenter",function(){
-				$(this).css("background-color","red");
-				$(this).attr("timeBar",true);
+				if($(this).attr("timeBar") == "true"){
+					$(this).css("background-color","#eee");
+					$(this).removeAttr("timeBar");
+				}else{
+					$(this).css("background-color","red");
+					$(this).attr("timeBar",true);
+				}
+
 			});
             flag = true;
 		}
@@ -85,6 +91,14 @@
 			$("#timeBar li").off("mouseenter");
 			flag = false;
 		}
+		$("#timeBar").on("mouseleave",function(){
+			mouseOverOff()
+        })
+        //获取时间
+        $("button").on("click",function(){
+
+        })
     });
+
 </script>
 </html>
